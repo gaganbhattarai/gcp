@@ -25,6 +25,7 @@ steps:
       - '--tunnel-through-iap'
       - '--command'
       - 'docker pull us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA && docker run -d --name my-app-container us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'
+      - 'debian@magic-progress-note'
     env:
       - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Optional region setting
       - 'CLOUDSDK_CORE_PROJECT=$PROJECT_ID'
