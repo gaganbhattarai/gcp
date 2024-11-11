@@ -24,8 +24,7 @@ steps:
       - 'us-central1-c'  # Replace with your desired zone
       - '--tunnel-through-iap'
       - '--command'
-      - 'docker pull nginx && docker run -dit --name nginx -p 8888:80 nginx
-        #- 'docker pull us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA && docker run -d --name my-app-container us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'
+      - 'docker pull nginx && docker run -dit --name nginx -p 8888:80 nginx'
       - 'debian@magic-progress-note'
     env:
       - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Optional region setting
