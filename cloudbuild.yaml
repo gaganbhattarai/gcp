@@ -31,4 +31,5 @@ steps:
 
 images:
   - 'gcr.io/$PROJECT_ID/my-app:$COMMIT_SHA'  # Push image to GCR
-
+options:
+  logging: CLOUD_LOGGING_ONLY 
