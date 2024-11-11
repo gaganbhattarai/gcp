@@ -4,14 +4,14 @@ steps:
     args:
       - 'build'
       - '--tag'
-      - 'gcr.io/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'  # Replace 'my-app' with your preferred repository name
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'  # Replace 'my-app' with your preferred repository name
       - '.'
 
   # Step 2: Push the Docker image to Google Container Registry (GCR)
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'gcr.io/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'  # Push image to GCR
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'  # Push image to GCR
 
   # Step 3: SSH into the VM instance using IAP and deploy the Docker image
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -24,12 +24,12 @@ steps:
       - 'us-central1-a'  # Replace with your desired zone
       - '--tunnel-through-iap'
       - '--command'
-      - 'docker pull gcr.io/$PROJECT_ID/my-app/my-app:$COMMIT_SHA && docker run -d --name my-app-container gcr.io/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'
+      - 'docker pull us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA && docker run -d --name my-app-container us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'
     env:
       - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Optional region setting
       - 'CLOUDSDK_CORE_PROJECT=$PROJECT_ID'
 
 images:
-  - 'gcr.io/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'  # Push image to GCR
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'  # Push image to GCR
 options:
   logging: CLOUD_LOGGING_ONLY 
