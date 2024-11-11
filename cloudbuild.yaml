@@ -21,7 +21,7 @@ steps:
       - '--project'
       - '$PROJECT_ID'
       - '--zone'
-      - 'us-central1-a'  # Replace with your desired zone
+      - 'us-central1-c'  # Replace with your desired zone
       - '--tunnel-through-iap'
       - '--command'
       - 'docker pull us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA && docker run -d --name my-app-container us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'
