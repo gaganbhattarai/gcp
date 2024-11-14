@@ -28,7 +28,7 @@ steps:
       - |
           gcloud auth configure-docker us-central1-docker.pkg.dev
           docker pull us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA
-          docker run -d --name my-app-container -e APIS_CREDS="$APIS_CREDS" -e APIS_ENV_VARS="$APIS_ENV_VARS" us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA
+          docker run -d --name my-app-container -e APIS="$APIS_CREDS" -e ENV_VARS="$APIS_ENV_VARS" us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA
       - 'debian@magic-progress-note'
     env:
       - 'CLOUDSDK_COMPUTE_REGION=us-central1'
