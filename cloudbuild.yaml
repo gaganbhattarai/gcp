@@ -14,7 +14,8 @@ steps:
       - 'us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'  # Push image to GCR
 
   # Step 3: SSH into the VM instance using IAP and deploy the Docker image
-  - name: 'gcr.io/cloud-builders/gcloud'
+  - name: 'google/cloud-sdk:latest'
+    entrypoint: 'gcloud'
     args:
       - 'compute'
       - 'ssh'
@@ -24,7 +25,12 @@ steps:
       - 'us-central1-c'  # Replace with your desired zone
       - '--tunnel-through-iap'
       - '--command'
-      - 'gcloud auth configure-docker us-central1-docker.pkg.dev && docker pull us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA && docker run -d --name my-app-container us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'
+      - |
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+          docker pull us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA
+          export APIS_CREDS=$(gcloud secrets versions access latest --secret="$_API_CREDS_SECRET")
+          export APIS_ENV_VARS=$(gcloud secrets versions access latest --secret="$_API_ENV_SECRETS")
+          docker run -d --name my-app-container -e APIS_CREDS="$APIS_CREDS" -e APIS_ENV_VARS="$APIS_ENV_VARS" us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'
       - 'debian@magic-progress-note'
     env:
       - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Optional region setting
