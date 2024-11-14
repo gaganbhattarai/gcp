@@ -28,13 +28,14 @@ steps:
       - |
           gcloud auth configure-docker us-central1-docker.pkg.dev
           docker pull us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA
-          export APIS_CREDS=$(gcloud secrets versions access latest --secret="pubsub_creds")
-          export APIS_ENV_VARS=$(gcloud secrets versions access latest --secret="test-secrets")
           docker run -d --name my-app-container -e APIS_CREDS="$APIS_CREDS" -e APIS_ENV_VARS="$APIS_ENV_VARS" us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA
       - 'debian@magic-progress-note'
     env:
-      - 'CLOUDSDK_COMPUTE_REGION=us-central1'  # Optional region setting
+      - 'CLOUDSDK_COMPUTE_REGION=us-central1'
       - 'CLOUDSDK_CORE_PROJECT=$PROJECT_ID'
+      - 'APIS_CREDS=$(gcloud secrets versions access latest --secret="pubsub_creds")'
+      - 'APIS_ENV_VARS=$(gcloud secrets versions access latest --secret="test-secrets")'
+
 
 images:
   - 'us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA'  # Push image to GCR
