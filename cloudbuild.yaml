@@ -30,6 +30,10 @@ steps:
           docker pull us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA
           echo $(gcloud secrets versions access latest --secret="pubsub_creds") > creds.json
           docker run -d --name my-app-container -v /home/debian/creds.json:/creds.json us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA
+          
+          #clean up the ssh keys used for this run
+          KEY_TO_REMOVE=$(grep -A 1 "ssh-rsa" /home/debian/.ssh/authorized_keys | tail -n 1)
+          sed -i "/$KEY_TO_REMOVE/d" /home/debian/.ssh/authorized_keys
       - 'debian@magic-progress-note'
     env:
       - 'CLOUDSDK_COMPUTE_REGION=us-central1'
