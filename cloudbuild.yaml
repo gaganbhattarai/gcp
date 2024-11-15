@@ -32,7 +32,7 @@ steps:
           docker run -d --name my-app-container -v /home/debian/creds.json:/creds.json us-central1-docker.pkg.dev/$PROJECT_ID/my-app/my-app:$COMMIT_SHA
           
           #clean up the ssh keys used for this run
-          sed -i "/$(printf '%s' "$(grep -A 1 'ssh-rsa' /home/debian/.ssh/authorized-keys | tail -n 1)" | sed 's/[&/\]/\\&/g')/d" /home/debian/.ssh/authorized-keys
+          sed -i "/$(printf '%s' "$(grep -A 1 'ssh-rsa' /home/debian/.ssh/authorized_keys | tail -n 1)" | sed 's/[&/\]/\\&/g')/d" /home/debian/.ssh/authorized_keys
       - 'debian@magic-progress-note'
     env:
       - 'CLOUDSDK_COMPUTE_REGION=us-central1'
